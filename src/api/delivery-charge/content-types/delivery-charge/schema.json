@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "delivery_charges",
+  "info": {
+    "singularName": "delivery-charge",
+    "pluralName": "delivery-charges",
+    "displayName": "Delivery_charge"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "state": {
+      "type": "string"
+    },
+    "base_charge": {
+      "type": "decimal"
+    },
+    "free_above": {
+      "type": "decimal"
+    }
+  }
+}

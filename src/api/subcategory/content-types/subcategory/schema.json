@@ -36,6 +36,19 @@
     "slug": {
       "type": "uid",
       "targetField": "subcategory_name"
+    },
+    "sort_order": {
+      "type": "integer"
+    },
+    "cover_image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

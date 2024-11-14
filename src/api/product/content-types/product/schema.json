@@ -43,28 +43,29 @@
     "meta_desc": {
       "type": "blocks"
     },
-    "product_images": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product-image.product-image",
-      "mappedBy": "product"
-    },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::categorie.categorie",
       "inversedBy": "products"
     },
-    "image": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+    "product_images": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-image.product-image",
+      "mappedBy": "product"
+    },
+    "age_range": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::age-range.age-range",
+      "mappedBy": "product"
+    },
+    "order_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-item.order-item",
+      "mappedBy": "product"
     }
   }
 }

@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments",
+  "info": {
+    "singularName": "payment",
+    "pluralName": "payments",
+    "displayName": "Payment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "mappedBy": "payment"
+    },
+    "amount": {
+      "type": "decimal"
+    },
+    "payment_status": {
+      "type": "enumeration",
+      "enum": [
+        "Paid",
+        "Failed",
+        "Pending"
+      ]
+    },
+    "razorpay_Signature": {
+      "type": "string"
+    },
+    "transaction_id": {
+      "type": "string"
+    },
+    "razorpay_order_id": {
+      "type": "string"
+    },
+    "PaymentMethod": {
+      "type": "string"
+    }
+  }
+}

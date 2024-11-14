@@ -441,7 +441,6 @@ export interface PluginUsersPermissionsUser
     displayName: 'User';
   };
   options: {
-    timestamps: true;
     draftAndPublish: false;
   };
   attributes: {
@@ -470,6 +469,15 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    orders: Schema.Attribute.Relation<'oneToMany', 'api::order.order'>;
+    first_name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Configurable &
+      Schema.Attribute.DefaultTo<false>;
+    last_name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Configurable &
+      Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -482,6 +490,70 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'plugin::users-permissions.user'
     >;
+  };
+}
+
+export interface ApiAgeRangeAgeRange extends Struct.CollectionTypeSchema {
+  collectionName: 'age_ranges';
+  info: {
+    singularName: 'age-range';
+    pluralName: 'age-ranges';
+    displayName: 'age_range';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Schema.Attribute.String;
+    cover_image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    slug: Schema.Attribute.UID<'Name'>;
+    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
+    meta_title: Schema.Attribute.String;
+    meta_desc: Schema.Attribute.Blocks;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::age-range.age-range'
+    >;
+  };
+}
+
+export interface ApiBannerBanner extends Struct.CollectionTypeSchema {
+  collectionName: 'banners';
+  info: {
+    singularName: 'banner';
+    pluralName: 'banners';
+    displayName: 'Banner';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Schema.Attribute.String;
+    cover_image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    link: Schema.Attribute.String;
+    is_active: Schema.Attribute.Boolean;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::banner.banner'>;
   };
 }
 
@@ -507,6 +579,9 @@ export interface ApiCategorieCategorie extends Struct.CollectionTypeSchema {
     meta_desc: Schema.Attribute.String;
     sort_order: Schema.Attribute.Integer;
     products: Schema.Attribute.Relation<'oneToMany', 'api::product.product'>;
+    cover_image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -518,6 +593,144 @@ export interface ApiCategorieCategorie extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::categorie.categorie'
+    >;
+  };
+}
+
+export interface ApiDeliveryChargeDeliveryCharge
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'delivery_charges';
+  info: {
+    singularName: 'delivery-charge';
+    pluralName: 'delivery-charges';
+    displayName: 'Delivery_charge';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    state: Schema.Attribute.String;
+    base_charge: Schema.Attribute.Decimal;
+    free_above: Schema.Attribute.Decimal;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::delivery-charge.delivery-charge'
+    >;
+  };
+}
+
+export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'Order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    phone_number: Schema.Attribute.BigInteger;
+    first_name: Schema.Attribute.String;
+    last_name: Schema.Attribute.String;
+    address_line_1: Schema.Attribute.String;
+    address_line_2: Schema.Attribute.String;
+    city: Schema.Attribute.String;
+    state: Schema.Attribute.String;
+    pincode: Schema.Attribute.Integer;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    order_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::order-item.order-item'
+    >;
+    order_id: Schema.Attribute.UID;
+    payment: Schema.Attribute.Relation<'oneToOne', 'api::payment.payment'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::order.order'>;
+  };
+}
+
+export interface ApiOrderItemOrderItem extends Struct.CollectionTypeSchema {
+  collectionName: 'order_items';
+  info: {
+    singularName: 'order-item';
+    pluralName: 'order-items';
+    displayName: 'Order_item';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    quantity: Schema.Attribute.Integer;
+    price: Schema.Attribute.Decimal;
+    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
+    discount: Schema.Attribute.Decimal;
+    order: Schema.Attribute.Relation<'manyToOne', 'api::order.order'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::order-item.order-item'
+    >;
+  };
+}
+
+export interface ApiPaymentPayment extends Struct.CollectionTypeSchema {
+  collectionName: 'payments';
+  info: {
+    singularName: 'payment';
+    pluralName: 'payments';
+    displayName: 'Payment';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    order: Schema.Attribute.Relation<'oneToOne', 'api::order.order'>;
+    amount: Schema.Attribute.Decimal;
+    payment_status: Schema.Attribute.Enumeration<['Paid', 'Failed', 'Pending']>;
+    razorpay_Signature: Schema.Attribute.String;
+    transaction_id: Schema.Attribute.String;
+    razorpay_order_id: Schema.Attribute.String;
+    PaymentMethod: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment.payment'
     >;
   };
 }
@@ -546,17 +759,21 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     slug: Schema.Attribute.UID<'product_name'>;
     meta_title: Schema.Attribute.String;
     meta_desc: Schema.Attribute.Blocks;
-    product_images: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::product-image.product-image'
-    >;
     category: Schema.Attribute.Relation<
       'manyToOne',
       'api::categorie.categorie'
     >;
-    image: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
+    product_images: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::product-image.product-image'
+    >;
+    age_range: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::age-range.age-range'
+    >;
+    order_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::order-item.order-item'
     >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -627,6 +844,10 @@ export interface ApiSubcategorySubcategory extends Struct.CollectionTypeSchema {
     meta_title: Schema.Attribute.String;
     meta_desc: Schema.Attribute.Blocks;
     slug: Schema.Attribute.UID<'subcategory_name'>;
+    sort_order: Schema.Attribute.Integer;
+    cover_image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -1017,7 +1238,13 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::age-range.age-range': ApiAgeRangeAgeRange;
+      'api::banner.banner': ApiBannerBanner;
       'api::categorie.categorie': ApiCategorieCategorie;
+      'api::delivery-charge.delivery-charge': ApiDeliveryChargeDeliveryCharge;
+      'api::order.order': ApiOrderOrder;
+      'api::order-item.order-item': ApiOrderItemOrderItem;
+      'api::payment.payment': ApiPaymentPayment;
       'api::product.product': ApiProductProduct;
       'api::product-image.product-image': ApiProductImageProductImage;
       'api::subcategory.subcategory': ApiSubcategorySubcategory;
